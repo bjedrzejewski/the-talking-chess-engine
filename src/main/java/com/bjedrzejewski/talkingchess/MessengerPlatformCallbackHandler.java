@@ -50,14 +50,15 @@ public class MessengerPlatformCallbackHandler {
     /**
      * Constructs the {@code MessengerPlatformCallbackHandler} and initializes the {@code MessengerReceiveClient}.
      *
+     * @param appSecret   the {@code Application Secret}
+     * @param verifyToken the {@code Verification Token} that has been provided by you during the setup of the {@code
+     *                    Webhook}
      * @param sendClient  the initialized {@code MessengerSendClient}
      */
     @Autowired
-    public MessengerPlatformCallbackHandler(
-            final MessengerSendClient sendClient) {
-        String appSecret = System.getenv().get("appSecret");
-        String verifyToken = System.getenv().get("verifyToken");
-
+    public MessengerPlatformCallbackHandler(@Value("${messenger4j.appSecret}") final String appSecret,
+                                            @Value("${messenger4j.verifyToken}") final String verifyToken,
+                                            final MessengerSendClient sendClient) {
         logger.debug("Initializing MessengerReceiveClient - appSecret: {} | verifyToken: {}", appSecret, verifyToken);
         this.receiveClient = MessengerPlatform.newReceiveClientBuilder(appSecret, verifyToken)
                 .onTextMessageEvent(newTextMessageEventHandler())

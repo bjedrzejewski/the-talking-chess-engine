@@ -16,10 +16,11 @@ public class TheTalkingChessEngineApplication {
 
     /**
      * Initializes the {@code MessengerSendClient}.
+     *
+     * @param pageAccessToken the generated {@code Page Access Token}
      */
     @Bean
-    public MessengerSendClient messengerSendClient() {
-        String pageAccessToken = System.getenv().get("pageAccessToken");
+    public MessengerSendClient messengerSendClient(@Value("${messenger4j.pageAccessToken}") String pageAccessToken) {
         logger.debug("Initializing MessengerSendClient - pageAccessToken: {}", pageAccessToken);
         return MessengerPlatform.newSendClientBuilder(pageAccessToken).build();
     }
