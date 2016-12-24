@@ -130,8 +130,11 @@ public class MessengerPlatformCallbackHandler {
             String lowerMessage = messageText.toLowerCase();
 
             if(lowerMessage.contains("hello") || lowerMessage.equals("hi") || lowerMessage.contains("how are you")){
-                sendTextMessage(senderId, "Hello I am The Talking Chess Engine. Talk to me about some chess openings.");
-            } else if(lowerMessage.contains("sicilian")) {
+                sendTextMessage(senderId, "Hello I am The Talking Chess Engine. Talk to me about some chess openings or players.");
+            }
+
+            //Openings
+            else if(lowerMessage.contains("sicilian")) {
                 sendTextMessage(senderId, "Sicialian defense, great opening. If you play it against me as black, you may even get me to +0.3.");
             } else if(lowerMessage.contains("gambit")) {
                 sendTextMessage(senderId, "I love playing against gambits. They lose by force. All of them. I mean it. I checked.");
@@ -144,9 +147,33 @@ public class MessengerPlatformCallbackHandler {
             } else if(lowerMessage.contains("spanish") || lowerMessage.contains("lopez")) {
                 sendTextMessage(senderId, "Ahhhh, the Spanish. It wins by force. Don't listen to those telling you otherwise");
             }
+
+            //Players
+            else if(lowerMessage.contains("carlsen")) {
+                sendTextMessage(senderId, "Magnus is great by definition. A lot what he knows he learned from me!");
+            }
+            else if(lowerMessage.contains("kasparov")) {
+                sendTextMessage(senderId, "We chess engines don't like to talk too much about Kasparov. Once he accused us of being too human!");
+            }
+            else if(lowerMessage.contains("karjakin")) {
+                sendTextMessage(senderId, "He is not an engine, but still a great player. The K in the name may help him become World Champion one day.");
+            }
+            else if(lowerMessage.contains("nakamura")) {
+                sendTextMessage(senderId, "He is fast! He even beat my friend Crafty a few times online in a blitz game...");
+            }
+            else if(lowerMessage.contains("fischer") || lowerMessage.contains("fisher")) {
+                sendTextMessage(senderId, "Bobby Fischer is a legend. I can only imagine what he could have achieved with an engine like me and a few friends...");
+            }
+            else if(lowerMessage.contains("anand")) {
+                sendTextMessage(senderId, "Anand, the Lightning Kid! I wish I can earn a nickname as cool one day.");
+            }
+            else if(lowerMessage.contains("kramnik")) {
+                sendTextMessage(senderId, "His Berlin Defence is a stuff of legends... This did not help him when he blundered a knight against my friend Fritz though!");
+            }
+
             else {
                 sendTextMessage(senderId, "I did not understand you- I am just a chess engine after all!" +
-                        "Talk to me about some chess openings.");
+                        "Talk to me about some chess openings or players.");
             }
 
         };
