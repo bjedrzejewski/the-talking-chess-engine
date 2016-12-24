@@ -171,9 +171,17 @@ public class MessengerPlatformCallbackHandler {
                 sendTextMessage(senderId, "His Berlin Defence is a stuff of legends... This did not help him when he blundered a knight against my friend Fritz though!");
             }
 
+            //Favourite
+            else if((lowerMessage.contains("favourite") || lowerMessage.contains("favorite")) && lowerMessage.contains("player")) {
+                sendTextMessage(senderId, "My favourite players are HAL9000 and Deep Blue. From humans I admire Magnus Carlsen for emulating my style.");
+            }
+            else if((lowerMessage.contains("favourite") || lowerMessage.contains("favorite")) && lowerMessage.contains("opening")) {
+                sendTextMessage(senderId, "For white it is e4 and then I force the win (with Spanish). I don't like playing with black...");
+            }
+
+
             else {
-                sendTextMessage(senderId, "I did not understand you- I am just a chess engine after all!" +
-                        "Talk to me about some chess openings or players.");
+                sendTextMessage(senderId, "I did not understand you- I am just a chess engine after all! Talk to me about some chess openings or players.");
             }
 
         };
