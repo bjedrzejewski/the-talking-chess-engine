@@ -129,7 +129,7 @@ public class MessengerPlatformCallbackHandler {
 
             String lowerMessage = messageText.toLowerCase();
 
-            if(lowerMessage.contains("hello") || lowerMessage.equals("hi") || lowerMessage.contains("how are you")){
+            if(lowerMessage.contains("hello") || lowerMessage.contains("hey") || lowerMessage.equals("hi") || lowerMessage.contains("how are you")){
                 sendTextMessage(senderId, "Hello I am The Talking Chess Engine. Talk to me about some chess openings or players.");
             }
 
