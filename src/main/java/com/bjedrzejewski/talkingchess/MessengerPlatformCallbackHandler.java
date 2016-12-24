@@ -23,6 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Key;
 import java.util.Date;
 import java.util.List;
 
@@ -126,195 +127,43 @@ public class MessengerPlatformCallbackHandler {
             logger.info("Received message '{}' with text '{}' from user '{}' at '{}'",
                     messageId, messageText, senderId, timestamp);
 
-            try {
-                switch (messageText.toLowerCase()) {
-                    case "image":
-                        sendImageMessage(senderId);
-                        break;
+            String lowerMessage = messageText.toLowerCase();
 
-                    case "gif":
-                        sendGifMessage(senderId);
-                        break;
-
-                    case "audio":
-                        sendAudioMessage(senderId);
-                        break;
-
-                    case "video":
-                        sendVideoMessage(senderId);
-                        break;
-
-                    case "file":
-                        sendFileMessage(senderId);
-                        break;
-
-                    case "button":
-                        sendButtonMessage(senderId);
-                        break;
-
-                    case "generic":
-                        sendGenericMessage(senderId);
-                        break;
-
-                    case "receipt":
-                        sendReceiptMessage(senderId);
-                        break;
-
-                    case "quick reply":
-                        sendQuickReply(senderId);
-                        break;
-
-                    case "read receipt":
-                        sendReadReceipt(senderId);
-                        break;
-
-                    case "typing on":
-                        sendTypingOn(senderId);
-                        break;
-
-                    case "typing off":
-                        sendTypingOff(senderId);
-                        break;
-
-                    /*
-                    case "account linking":
-                        sendAccountLinking(senderId);
-                        break;
-                    */
-
-                    default:
-                        sendTextMessage(senderId, messageText);
-                }
-            } catch (MessengerApiException | MessengerIOException e) {
-                handleSendException(e);
+            if(lowerMessage.contains("hello") || lowerMessage.equals("hi") || lowerMessage.contains("how are you")){
+                sendTextMessage(senderId, "Hello I am The Talking Chess Engine. Talk to me about some chess openings.");
+            } else if(lowerMessage.contains("sicilian")) {
+                sendTextMessage(senderId, "Sicialian defense, great opening. If you play it against me as black, you may even get me to +0.3.");
+            } else if(lowerMessage.contains("gambit")) {
+                sendTextMessage(senderId, "I love playing against gambits. They lose by force. All of them. I mean it. I checked.");
+            } else if(lowerMessage.contains("italian")) {
+                sendTextMessage(senderId, "Italian game is interesting, but above 3000 elo not the best choice.");
+            } else if(lowerMessage.contains("kings") && lowerMessage.contains("indian")) {
+                sendTextMessage(senderId, "Kings Indian is great if you enjoy playing against +1.0 advantage. I heard that you can beat sub 2900 elo with it though.");
+            } else if(lowerMessage.contains("nimzo")){
+                sendTextMessage(senderId, "I respect ideas that came from Nimzowitch. He was one of the first to think like a chess engine.");
+            } else if(lowerMessage.contains("spanish") || lowerMessage.contains("lopez")) {
+                sendTextMessage(senderId, "Ahhhh, the Spanish. It wins by force. Don't listen to those telling you otherwise");
             }
+            else {
+                sendTextMessage(senderId, "I did not understand you- I am just a chess engine after all!" +
+                        "Talk to me about some chess openings.");
+            }
+
         };
     }
 
-    private void sendImageMessage(String recipientId) throws MessengerApiException, MessengerIOException {
-        this.sendClient.sendImageAttachment(recipientId, RESOURCE_URL + "/assets/rift.png");
+    private void sendTextMessage(String recipientId, String text) {
+        try {
+            final Recipient recipient = Recipient.newBuilder().recipientId(recipientId).build();
+            final NotificationType notificationType = NotificationType.REGULAR;
+            final String metadata = "DEVELOPER_DEFINED_METADATA";
+
+            this.sendClient.sendTextMessage(recipient, notificationType, text, metadata);
+        } catch (MessengerApiException | MessengerIOException e) {
+            handleSendException(e);
+        }
     }
 
-    private void sendGifMessage(String recipientId) throws MessengerApiException, MessengerIOException {
-        this.sendClient.sendImageAttachment(recipientId, "https://media.giphy.com/media/11sBLVxNs7v6WA/giphy.gif");
-    }
-
-    private void sendAudioMessage(String recipientId) throws MessengerApiException, MessengerIOException {
-        this.sendClient.sendAudioAttachment(recipientId, RESOURCE_URL + "/assets/sample.mp3");
-    }
-
-    private void sendVideoMessage(String recipientId) throws MessengerApiException, MessengerIOException {
-        this.sendClient.sendVideoAttachment(recipientId, RESOURCE_URL + "/assets/allofus480.mov");
-    }
-
-    private void sendFileMessage(String recipientId) throws MessengerApiException, MessengerIOException {
-        this.sendClient.sendFileAttachment(recipientId, RESOURCE_URL + "/assets/test.txt");
-    }
-
-    private void sendButtonMessage(String recipientId) throws MessengerApiException, MessengerIOException {
-        final List<Button> buttons = Button.newListBuilder()
-                .addUrlButton("Open Web URL", "https://www.oculus.com/en-us/rift/").toList()
-                .addPostbackButton("Trigger Postback", "DEVELOPER_DEFINED_PAYLOAD").toList()
-                .addCallButton("Call Phone Number", "+16505551234").toList()
-                .build();
-
-        final ButtonTemplate buttonTemplate = ButtonTemplate.newBuilder("Tap a button", buttons).build();
-        this.sendClient.sendTemplate(recipientId, buttonTemplate);
-    }
-
-    private void sendGenericMessage(String recipientId) throws MessengerApiException, MessengerIOException {
-        final List<Button> riftButtons = Button.newListBuilder()
-                .addUrlButton("Open Web URL", "https://www.oculus.com/en-us/rift/").toList()
-                .addPostbackButton("Call Postback", "Payload for first bubble").toList()
-                .build();
-
-        final List<Button> touchButtons = Button.newListBuilder()
-                .addUrlButton("Open Web URL", "https://www.oculus.com/en-us/touch/").toList()
-                .addPostbackButton("Call Postback", "Payload for second bubble").toList()
-                .build();
-
-
-        final GenericTemplate genericTemplate = GenericTemplate.newBuilder()
-                .addElements()
-                    .addElement("rift")
-                        .subtitle("Next-generation virtual reality")
-                        .itemUrl("https://www.oculus.com/en-us/rift/")
-                        .imageUrl(RESOURCE_URL + "/assets/rift.png")
-                        .buttons(riftButtons)
-                        .toList()
-                    .addElement("touch")
-                        .subtitle("Your Hands, Now in VR")
-                        .itemUrl("https://www.oculus.com/en-us/touch/")
-                        .imageUrl(RESOURCE_URL + "/assets/touch.png")
-                        .buttons(touchButtons)
-                        .toList()
-                    .done()
-                .build();
-
-        this.sendClient.sendTemplate(recipientId, genericTemplate);
-    }
-
-    private void sendReceiptMessage(String recipientId) throws MessengerApiException, MessengerIOException {
-        final String uniqueReceiptId = "order-" + Math.floor(Math.random() * 1000);
-
-        final ReceiptTemplate receiptTemplate = ReceiptTemplate.newBuilder("Peter Chang", uniqueReceiptId, "USD", "Visa 1234")
-                .timestamp(1428444852L)
-                .addElements()
-                    .addElement("Oculus Rift", 599.00f)
-                        .subtitle("Includes: headset, sensor, remote")
-                        .quantity(1)
-                        .currency("USD")
-                        .imageUrl(RESOURCE_URL + "/assets/riftsq.png")
-                        .toList()
-                    .addElement("Samsung Gear VR", 99.99f)
-                        .subtitle("Frost White")
-                        .quantity(1)
-                        .currency("USD")
-                        .imageUrl(RESOURCE_URL + "/assets/gearvrsq.png")
-                        .toList()
-                    .done()
-                .addAddress("1 Hacker Way", "Menlo Park", "94025", "CA", "US").done()
-                .addSummary(626.66f)
-                    .subtotal(698.99f)
-                    .shippingCost(20.00f)
-                    .totalTax(57.67f)
-                    .done()
-                .addAdjustments()
-                    .addAdjustment().name("New Customer Discount").amount(-50f).toList()
-                    .addAdjustment().name("$100 Off Coupon").amount(-100f).toList()
-                    .done()
-                .build();
-
-        this.sendClient.sendTemplate(recipientId, receiptTemplate);
-    }
-
-    private void sendQuickReply(String recipientId) throws MessengerApiException, MessengerIOException {
-        final List<QuickReply> quickReplies = QuickReply.newListBuilder()
-                .addTextQuickReply("Action", "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_ACTION").toList()
-                .addTextQuickReply("Comedy", "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_COMEDY").toList()
-                .addTextQuickReply("Drama", "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_DRAMA").toList()
-                .addLocationQuickReply().toList()
-                .build();
-
-        this.sendClient.sendTextMessage(recipientId, "What's your favorite movie genre?", quickReplies);
-    }
-
-    private void sendReadReceipt(String recipientId) throws MessengerApiException, MessengerIOException {
-        this.sendClient.sendSenderAction(recipientId, SenderAction.MARK_SEEN);
-    }
-
-    private void sendTypingOn(String recipientId) throws MessengerApiException, MessengerIOException {
-        this.sendClient.sendSenderAction(recipientId, SenderAction.TYPING_ON);
-    }
-
-    private void sendTypingOff(String recipientId) throws MessengerApiException, MessengerIOException {
-        this.sendClient.sendSenderAction(recipientId, SenderAction.TYPING_OFF);
-    }
-
-    private void sendAccountLinking(String recipientId) {
-        // supported by messenger4j since 0.7.0
-        // sample implementation coming soon
-    }
 
     private AttachmentMessageEventHandler newAttachmentMessageEventHandler() {
         return event -> {
@@ -463,17 +312,7 @@ public class MessengerPlatformCallbackHandler {
         };
     }
 
-    private void sendTextMessage(String recipientId, String text) {
-        try {
-            final Recipient recipient = Recipient.newBuilder().recipientId(recipientId).build();
-            final NotificationType notificationType = NotificationType.REGULAR;
-            final String metadata = "DEVELOPER_DEFINED_METADATA";
 
-            this.sendClient.sendTextMessage(recipient, notificationType, text, metadata);
-        } catch (MessengerApiException | MessengerIOException e) {
-            handleSendException(e);
-        }
-    }
 
     private void handleSendException(Exception e) {
         logger.error("Message could not be sent. An unexpected error occurred.", e);
