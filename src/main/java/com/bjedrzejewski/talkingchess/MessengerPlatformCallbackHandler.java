@@ -103,7 +103,7 @@ public class MessengerPlatformCallbackHandler {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<String> emptyPost() {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
