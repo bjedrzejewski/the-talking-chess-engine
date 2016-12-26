@@ -136,7 +136,7 @@ public class MessengerPlatformCallbackHandler {
             String lowerMessage = messageText.toLowerCase();
 
 
-            if(exactMessages(senderId, lowerMessage)){
+            if(priorityMessages(senderId, lowerMessage)){
                 return;
             }
             if(lowerMessage.contains("hello") || lowerMessage.contains("hey") || lowerMessage.equals("hi") || lowerMessage.contains("how are you")){
@@ -247,7 +247,7 @@ public class MessengerPlatformCallbackHandler {
         }
     }
 
-    private boolean exactMessages(String recipientId, String lowerMessage) {
+    private boolean priorityMessages(String recipientId, String lowerMessage) {
         lowerMessage = lowerMessage.toLowerCase();
         if(lowerMessage.equals("yes, i want to play a game")) {
             sendTextMessage(recipientId, "You can play against an engine without registering on lichess, have fun: https://en.lichess.org/setup/ai");
@@ -277,7 +277,7 @@ public class MessengerPlatformCallbackHandler {
             sendTextMessage(recipientId, "To learn more visit: https://en.wikipedia.org/wiki/Sicilian_Defence");
             return true;
         }
-        else if(lowerMessage.equals("i want to learn sicilian najdorf")) {
+        else if(lowerMessage.contains("sicilian") && lowerMessage.contains("najdorf")) {
             sendTextMessage(recipientId, "Najdorf goes: 1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 a6");
             sendTextMessage(recipientId, "The Najdorf Variation is Black's most popular system in the Sicilian Defence. " +
                     "Najdorf's intention with 5...a6 was to prepare ...e5 on the next move to gain space in the centre; " +
@@ -288,7 +288,7 @@ public class MessengerPlatformCallbackHandler {
             sendTextMessage(recipientId, "To learn more visit: https://en.wikipedia.org/wiki/Sicilian_Defence");
             return true;
         }
-        else if(lowerMessage.equals("i want to learn sicilian dragon")) {
+        else if(lowerMessage.contains("sicilian") && lowerMessage.contains("dragon")) {
             sendTextMessage(recipientId, "Dragon goes: 1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 g6");
             sendTextMessage(recipientId, "In the Dragon Variation, Black fianchettoes a Bishop on the h8–a1 diagonal. " +
                     "It was named by Fyodor Dus-Chotimirsky in 1901, who noticed a resemblance between Black's kingside " +
@@ -303,7 +303,7 @@ public class MessengerPlatformCallbackHandler {
             sendTextMessage(recipientId, "To learn more visit: https://en.wikipedia.org/wiki/Sicilian_Defence");
             return true;
         }
-        else if(lowerMessage.equals("i want to learn sicilian classical")) {
+        else if(lowerMessage.contains("sicilian") && lowerMessage.contains("classical")) {
             sendTextMessage(recipientId, "Classical goes: 1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 Nc6");
             sendTextMessage(recipientId, "This variation can arise from two different move orders: " +
                     "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 Nc6, or 1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 d6. " +
@@ -320,7 +320,7 @@ public class MessengerPlatformCallbackHandler {
             sendTextMessage(recipientId, "To learn more visit: https://en.wikipedia.org/wiki/Sicilian_Defence");
             return true;
         }
-        else if(lowerMessage.equals("i want to learn sicilian scheveningen")) {
+        else if(lowerMessage.contains("scheveningen")) {
             sendTextMessage(recipientId, "Scheveningen goes: 1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 e6");
             sendTextMessage(recipientId, "In the Scheveningen Variation, Black is content with a \"small centre\" " +
                     "(pawns on d6 and e6, rather than e5) and prepares to castle kingside. In view of this, Paul Keres " +
@@ -334,7 +334,7 @@ public class MessengerPlatformCallbackHandler {
             sendTextMessage(recipientId, "To learn more visit: https://en.wikipedia.org/wiki/Sicilian_Defence");
             return true;
         }
-        else if(lowerMessage.equals("i want to learn sicilian sveshnikov")) {
+        else if(lowerMessage.contains("sveshnikov")) {
             sendTextMessage(recipientId, "Sveshnikov goes: 1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 e5");
             sendTextMessage(recipientId, "The Sveshnikov Variation was pioneered by Evgeny Sveshnikov and Gennadi Timoshchenko " +
                     "in the 1970s. Before their efforts, the variation was called the Lasker–Pelikan Variation.");
@@ -351,7 +351,7 @@ public class MessengerPlatformCallbackHandler {
             sendTextMessage(recipientId, "To learn more visit: https://en.wikipedia.org/wiki/Sicilian_Defence");
             return true;
         }
-        else if(lowerMessage.equals("i want to learn sicilian taimanov")) {
+        else if(lowerMessage.contains("taimanov")) {
             sendTextMessage(recipientId, "Taimanov goes: 1.e4 c5 2.Nf3 e6 3.d4 cxd4 4.Nxd4 Nc6");
             sendTextMessage(recipientId, "Named after Mark Taimanov, the Taimanov Variation can be reached through " +
                     "1.e4 c5 2.Nf3 e6 3.d4 cxd4 4.Nxd4 Nc6 or 1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 e6. ");
@@ -388,7 +388,7 @@ public class MessengerPlatformCallbackHandler {
 
     private void messageNotUnderstood(String senderId) {
         Random random = new Random(System.currentTimeMillis());
-        int val = random.nextInt();
+        int val = Math.abs(random.nextInt());
         val = val%5;
         if(val == 0)
             sendTextMessage(senderId, "I did not understand you- I am just a chess engine after all! Talk to me about some chess openings or players.");
@@ -456,8 +456,8 @@ public class MessengerPlatformCallbackHandler {
 
             logger.info("Received quick reply for message '{}' with payload '{}'", messageId, quickReplyPayload);
 
-            //Quick messages are always scripted
-            exactMessages(senderId, quickReplyPayload);
+            //The messages that contains scripted answers
+            priorityMessages(senderId, quickReplyPayload);
         };
     }
 
