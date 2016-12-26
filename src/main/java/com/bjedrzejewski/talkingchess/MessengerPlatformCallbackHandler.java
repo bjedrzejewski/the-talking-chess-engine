@@ -270,7 +270,8 @@ public class MessengerPlatformCallbackHandler {
         else if(lowerMessage.equals("i want to learn general sicilian")) {
             sendTextMessage(recipientId, "The Sicilian is the most popular and best-scoring response to White's first " +
                     "move 1.e4. 1.d4 is a statistically more successful opening for white due to the high success rate " +
-                    "of the Sicilian defence against 1.e4. New In Chess stated in its 2000 Yearbook that of the games " +
+                    "of the Sicilian defence against 1.e4.");
+            sendTextMessage(recipientId,"New In Chess stated in its 2000 Yearbook that of the games " +
                     "in its database, White scored 56.1% in 296,200 games beginning 1.d4, but 54.1% in 349,855 games " +
                     "beginning 1.e4, mainly due to the Sicilian, which held White to a 52.3% score in 145,996 games.");
             sendTextMessage(recipientId, "To learn more visit: https://en.wikipedia.org/wiki/Sicilian_Defence");
@@ -280,8 +281,8 @@ public class MessengerPlatformCallbackHandler {
             sendTextMessage(recipientId, "Najdorf goes: 1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 a6");
             sendTextMessage(recipientId, "The Najdorf Variation is Black's most popular system in the Sicilian Defence. " +
                     "Najdorf's intention with 5...a6 was to prepare ...e5 on the next move to gain space in the centre; " +
-                    "the immediate 5...e5?! however is met by 6.Bb5+!, when Black must either play 6...Bd7 or 6...Nbd7. " +
-                    "The former allows White to exchange off Black's light-squared bishop, after which the d5-square " +
+                    "the immediate 5...e5?! however is met by 6.Bb5+!, when Black must either play 6...Bd7 or 6...Nbd7. ");
+            sendTextMessage(recipientId, "The former allows White to exchange off Black's light-squared bishop, after which the d5-square " +
                     "becomes very weak; but the latter allows 7.Nf5, when Black can only save the d-pawn by playing the " +
                     "awkward 7...a6 8.Bxd7+ Qxd7. In both cases, White's game is preferable.");
             sendTextMessage(recipientId, "To learn more visit: https://en.wikipedia.org/wiki/Sicilian_Defence");
@@ -291,25 +292,30 @@ public class MessengerPlatformCallbackHandler {
             sendTextMessage(recipientId, "Dragon goes: 1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 g6");
             sendTextMessage(recipientId, "In the Dragon Variation, Black fianchettoes a Bishop on the h8–a1 diagonal. " +
                     "It was named by Fyodor Dus-Chotimirsky in 1901, who noticed a resemblance between Black's kingside " +
-                    "pawn structure (pawns on d6, e7, f7, g6 and h7) and the stars of the Draco constellation.[33] White's " +
-                    "most dangerous try against the Dragon is the Yugoslav Attack, characterised by 6.Be3 Bg7 7.f3 0-0 8.Qd2 Nc6, " +
-                    "when both 9.0-0-0 and 9.Bc4 may be played. This variation leads to extremely sharp play and is ferociously " +
+                    "pawn structure (pawns on d6, e7, f7, g6 and h7) and the stars of the Draco constellation. ");
+            sendTextMessage(recipientId,"White's most dangerous try against the Dragon is the Yugoslav Attack, characterised by 6.Be3 Bg7 7.f3 0-0 8.Qd2 Nc6, " +
+                    "when both 9.0-0-0 and 9.Bc4 may be played. ");
+            sendTextMessage(recipientId,"This variation leads to extremely sharp play and is ferociously " +
                     "complicated, since the players castle on opposite wings and the game becomes a race between White's kingside " +
-                    "attack and Black's queenside counterattack. White's main alternatives to the Yugoslav Attack are 6.Be2, " +
+                    "attack and Black's queenside counterattack. ");
+            sendTextMessage(recipientId,"White's main alternatives to the Yugoslav Attack are 6.Be2, " +
                     "the Classical Variation, and 6.f4, the Levenfish Attack.");
             sendTextMessage(recipientId, "To learn more visit: https://en.wikipedia.org/wiki/Sicilian_Defence");
             return true;
         }
         else if(lowerMessage.equals("i want to learn sicilian classical")) {
             sendTextMessage(recipientId, "Classical goes: 1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 Nc6");
-            sendTextMessage(recipientId, "This variation can arise from two different move orders: 1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 Nc6, or 1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 d6. Black simply brings their knight to its most natural square, and defers, for the moment, the development of their king's bishop.\n" +
-                    "\n" +
-                    "White's most common reply is 6.Bg5, the Richter–Rauzer Attack (ECO codes B60 et seq). " +
+            sendTextMessage(recipientId, "This variation can arise from two different move orders: " +
+                    "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 Nc6, or 1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 d6. " +
+                    "Black simply brings their knight to its most natural square, and defers, for the moment, the development of their king's bishop.");
+            sendTextMessage(recipientId,"White's most common reply is 6.Bg5, the Richter–Rauzer Attack (ECO codes B60 et seq). " +
                     "The move 6.Bg5 was Kurt Richter's invention, threatening to double Black's pawns after Bxf6 and " +
-                    "forestalling the Dragon by rendering 6...g6 unplayable. After 6...e6, Vsevolod Rauzer introduced " +
+                    "forestalling the Dragon by rendering 6...g6 unplayable.");
+            sendTextMessage(recipientId,"After 6...e6, Vsevolod Rauzer introduced " +
                     "the modern plan of Qd2 and 0-0-0 in the 1930s. White's pressure on the d6-pawn often compels Black " +
                     "to respond to Bxf6 with ...gxf6, rather than recapturing with a piece (e.g. the queen on d8) that " +
-                    "also has to defend the d-pawn. This weakens their kingside pawn structure, in return for which Black " +
+                    "also has to defend the d-pawn.");
+            sendTextMessage(recipientId,"This weakens their kingside pawn structure, in return for which Black " +
                     "gains the two bishops, plus a central pawn majority, though these assets are difficult to exploit.");
             sendTextMessage(recipientId, "To learn more visit: https://en.wikipedia.org/wiki/Sicilian_Defence");
             return true;
@@ -318,9 +324,11 @@ public class MessengerPlatformCallbackHandler {
             sendTextMessage(recipientId, "Scheveningen goes: 1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 e6");
             sendTextMessage(recipientId, "In the Scheveningen Variation, Black is content with a \"small centre\" " +
                     "(pawns on d6 and e6, rather than e5) and prepares to castle kingside. In view of this, Paul Keres " +
-                    "introduced 6.g4, the Keres Attack, in 1943. White intends to drive away the black knight with g5. " +
+                    "introduced 6.g4, the Keres Attack, in 1943.");
+            sendTextMessage(recipientId,"White intends to drive away the black knight with g5. " +
                     "If Black prevents this with 6...h6, which is the most common answer, White has gained kingside space " +
-                    "and discouraged Black from castling in that area, and may later play Bg2. If the complications after " +
+                    "and discouraged Black from castling in that area, and may later play Bg2.");
+            sendTextMessage(recipientId,"If the complications after " +
                     "6.g4 are not to White's taste, a major alternative is 6.Be2, a typical line being 6...a6 (this position " +
                     "can be reached from the Najdorf via 5...a6 6.Be2 e6) 7.0-0 Be7 8.f4 0-0. 6.Be3 and 6.f4 are also common.");
             sendTextMessage(recipientId, "To learn more visit: https://en.wikipedia.org/wiki/Sicilian_Defence");
@@ -329,13 +337,16 @@ public class MessengerPlatformCallbackHandler {
         else if(lowerMessage.equals("i want to learn sicilian sveshnikov")) {
             sendTextMessage(recipientId, "Sveshnikov goes: 1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 e5");
             sendTextMessage(recipientId, "The Sveshnikov Variation was pioneered by Evgeny Sveshnikov and Gennadi Timoshchenko " +
-                    "in the 1970s. Before their efforts, the variation was called the Lasker–Pelikan Variation. Emanuel Lasker " +
+                    "in the 1970s. Before their efforts, the variation was called the Lasker–Pelikan Variation.");
+            sendTextMessage(recipientId,"Emanuel Lasker " +
                     "played it once in his world championship match against Carl Schlechter, and Jorge Pelikan played it a few " +
-                    "times in the 1950s, but Sveshnikov's treatment of the variation was the key to its revitalization. " +
-                    "The move 5...e5 seems anti-positional as it leaves black with a backwards d-pawn and a weakness on d5. " +
-                    "Also, black would have to accept the doubled f-pawns in the main line of the opening. The opening was " +
+                    "times in the 1950s, but Sveshnikov's treatment of the variation was the key to its revitalization.");
+            sendTextMessage(recipientId,"The move 5...e5 seems anti-positional as it leaves black with a backwards d-pawn and a weakness on d5. " +
+                    "Also, black would have to accept the doubled f-pawns in the main line of the opening. ");
+            sendTextMessage(recipientId,"The opening was " +
                     "popularised when Sveshnikov saw its dynamic potential for Black in the 1970s and 80s. Today, it is " +
-                    "extremely popular among grandmasters and amateurs alike. Though some lines still give Black trouble, " +
+                    "extremely popular among grandmasters and amateurs alike. ");
+            sendTextMessage(recipientId,"Though some lines still give Black trouble, " +
                     "it has been established as a first-rate defence. The main line after 5...e5 runs as follows:");
             sendTextMessage(recipientId, "To learn more visit: https://en.wikipedia.org/wiki/Sicilian_Defence");
             return true;
@@ -343,9 +354,11 @@ public class MessengerPlatformCallbackHandler {
         else if(lowerMessage.equals("i want to learn sicilian taimanov")) {
             sendTextMessage(recipientId, "Taimanov goes: 1.e4 c5 2.Nf3 e6 3.d4 cxd4 4.Nxd4 Nc6");
             sendTextMessage(recipientId, "Named after Mark Taimanov, the Taimanov Variation can be reached through " +
-                    "1.e4 c5 2.Nf3 e6 3.d4 cxd4 4.Nxd4 Nc6 or 1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 e6. Black develops " +
+                    "1.e4 c5 2.Nf3 e6 3.d4 cxd4 4.Nxd4 Nc6 or 1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 e6. ");
+            sendTextMessage(recipientId,"Black develops " +
                     "the knight to a natural square and keeps his options open regarding the placement of his other " +
-                    "pieces. One of the ideas of this system is to develop the king's bishop to b4 or c5. White can " +
+                    "pieces. One of the ideas of this system is to develop the king's bishop to b4 or c5. ");
+            sendTextMessage(recipientId,"White can " +
                     "prevent this by 5.Nb5 d6, when 6.c4 leads to a version of the Maróczy Bind favoured by Karpov. " +
                     "The resulting position after 6.c4 Nf6 7.N1c3 a6 8.Na3 b6 is a type of Hedgehog.");
             sendTextMessage(recipientId, "To learn more visit: https://en.wikipedia.org/wiki/Sicilian_Defence");
