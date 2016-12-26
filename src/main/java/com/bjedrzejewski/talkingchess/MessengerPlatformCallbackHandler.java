@@ -226,6 +226,7 @@ public class MessengerPlatformCallbackHandler {
     }
 
     private boolean exactMessages(String recipientId, String lowerMessage) {
+        lowerMessage = lowerMessage.toLowerCase();
         if(lowerMessage.equals("yes, i want to play a game")) {
             sendTextMessage(recipientId, "You can play against an engine without registering on lichess, have fun: https://en.lichess.org/setup/ai");
             return true;
