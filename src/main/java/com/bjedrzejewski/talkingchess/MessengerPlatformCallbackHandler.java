@@ -245,7 +245,7 @@ public class MessengerPlatformCallbackHandler {
         final List<QuickReply> quickReplies = QuickReply.newListBuilder()
                 .addTextQuickReply("Yes", "Yes, I want to play a game").toList()
                 .addTextQuickReply("No", "No, thank you, I don't want to play").toList()
-                .addTextQuickReply("I want to learn how to play", "I want to learn how to play").toList()
+                .addTextQuickReply("Teach me rules", "I want to learn how to play").toList()
                 .addLocationQuickReply().toList()
                 .build();
 
