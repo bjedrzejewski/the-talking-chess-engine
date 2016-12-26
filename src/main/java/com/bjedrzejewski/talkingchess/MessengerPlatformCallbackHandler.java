@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Key;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import static com.github.messenger4j.MessengerPlatform.*;
 
@@ -146,6 +147,14 @@ public class MessengerPlatformCallbackHandler {
                 sendTextMessage(senderId, "I respect ideas that came from Nimzowitch. He was one of the first to think like a chess engine.");
             } else if(lowerMessage.contains("spanish") || lowerMessage.contains("lopez")) {
                 sendTextMessage(senderId, "Ahhhh, the Spanish. It wins by force. Don't listen to those telling you otherwise");
+            } else if(lowerMessage.contains("slav")) {
+                sendTextMessage(senderId, "Slav is a sound opening, well tested by Alekhine. Just make sure you deal with your bishop as black.");
+            } else if(lowerMessage.contains("berlin")) {
+                sendTextMessage(senderId, "Berlin is the opening of choice when I want to force a draw... It usually does not work- I win anyway.");
+            } else if(lowerMessage.contains("e4")) {
+                sendTextMessage(senderId, "e4 - the best by test. I am not in a mood to play, but if I was it could go like that: 1. e4 d5 2. ed5 Qd5 3. Ke2 Qe4#");
+            } else if(lowerMessage.contains("d4")) {
+                sendTextMessage(senderId, "d4 is another solid choice. I won't play you, since I can't speak chess moves in human language yet.");
             }
 
             //Players
@@ -170,6 +179,13 @@ public class MessengerPlatformCallbackHandler {
             else if(lowerMessage.contains("kramnik")) {
                 sendTextMessage(senderId, "His Berlin Defence is a stuff of legends... This did not help him when he blundered a knight against my friend Fritz though!");
             }
+            else if(lowerMessage.contains("karpov")) {
+                sendTextMessage(senderId, "Karpov was a famous strategic player. The fact that he has a type of fish (karp) in his name, only" +
+                        "gives him more credibility!");
+            }
+            else if(lowerMessage.contains("capablance")) {
+                sendTextMessage(senderId, "He played so simple and so correct. Nothing like my games, but still beautiful.");
+            }
 
             //Favourite
             else if((lowerMessage.contains("favourite") || lowerMessage.contains("favorite")) && lowerMessage.contains("player")) {
@@ -180,11 +196,31 @@ public class MessengerPlatformCallbackHandler {
             }
 
 
+            //edngame
+            else if(lowerMessage.contains("endgame")) {
+                sendTextMessage(senderId, "We engines are not great at endgames... Usually we just look it up from the tablebase.");
+            }
+
+
             else {
-                sendTextMessage(senderId, "I did not understand you- I am just a chess engine after all! Talk to me about some chess openings or players.");
+                messageNotUnderstood(senderId);
             }
 
         };
+    }
+
+    private void messageNotUnderstood(String senderId) {
+        Random random = new Random(System.currentTimeMillis());
+        int val = random.nextInt();
+        val = val%4;
+        if(val == 0)
+            sendTextMessage(senderId, "I did not understand you- I am just a chess engine after all! Talk to me about some chess openings or players.");
+        if(val == 1)
+            sendTextMessage(senderId, "I did not get it. I am still learning. Your feedback is welcome.");
+        if(val == 2)
+            sendTextMessage(senderId, "Thank you for being patient with me- can you try something else? Another player or opening?");
+        if(val == 3)
+            sendTextMessage(senderId, "I did not know about that yet. I am still learning and will probably know it in a few days.");
     }
 
     private void sendTextMessage(String recipientId, String text) {
