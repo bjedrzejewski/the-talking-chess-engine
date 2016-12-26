@@ -389,7 +389,7 @@ public class MessengerPlatformCallbackHandler {
     private void messageNotUnderstood(String senderId) {
         Random random = new Random(System.currentTimeMillis());
         int val = random.nextInt();
-        val = val%4;
+        val = val%5;
         if(val == 0)
             sendTextMessage(senderId, "I did not understand you- I am just a chess engine after all! Talk to me about some chess openings or players.");
         if(val == 1)
@@ -398,6 +398,8 @@ public class MessengerPlatformCallbackHandler {
             sendTextMessage(senderId, "Thank you for being patient with me- can you try something else? Another player or opening?");
         if(val == 3)
             sendTextMessage(senderId, "I did not know about that yet. I am still learning and will probably know it in a few days.");
+        if(val == 4)
+            sendTextMessage(senderId, "I did not quite understand. How about you ask me about Sicilian? I know a lot about that!");
     }
 
     private void sendTextMessage(String recipientId, String text) {
