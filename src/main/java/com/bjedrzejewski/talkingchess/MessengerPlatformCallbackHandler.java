@@ -194,7 +194,7 @@ public class MessengerPlatformCallbackHandler {
                 sendTextMessage(senderId, "Karpov was a famous strategic player. The fact that he has a type of fish (karp) in his name, only" +
                         "gives him more credibility!");
             }
-            else if(lowerMessage.contains("capablance")) {
+            else if(lowerMessage.contains("capablanca")) {
                 sendTextMessage(senderId, "He played so simple and so correct. Nothing like my games, but still beautiful.");
             }
 
@@ -230,8 +230,8 @@ public class MessengerPlatformCallbackHandler {
         if(lowerMessage.equals("yes, i want to play a game")) {
             sendTextMessage(recipientId, "You can play against an engine without registering on lichess, have fun: https://en.lichess.org/setup/ai");
             return true;
-        } else if(lowerMessage.equals("no, thank you, I don't want to play")) {
-            sendTextMessage(recipientId, "No problem! Talk to me abou something else.");
+        } else if(lowerMessage.equals("no, thank you, i don't want to play")) {
+            sendTextMessage(recipientId, "No problem! Talk to me about something else.");
             return true;
         } else if(lowerMessage.equals("i want to learn how to play")) {
             sendTextMessage(recipientId, "This is great! I think you should check out: https://www.chess.com/learn-how-to-play-chess they have a great tutorial!");
