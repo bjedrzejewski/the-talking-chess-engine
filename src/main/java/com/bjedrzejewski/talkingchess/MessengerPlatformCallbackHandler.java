@@ -228,7 +228,7 @@ public class MessengerPlatformCallbackHandler {
     private void sicilianTalk(String senderId) {
         sendTextMessage(senderId, "Sicialian defense, great opening. If you play it against me as black, you may even get me to +0.3.");
         final List<QuickReply> quickReplies = QuickReply.newListBuilder()
-                .addTextQuickReply("General Ideas", "I want to learn general Sicialian").toList()
+                .addTextQuickReply("General Ideas", "I want to learn general Sicilian").toList()
                 .addTextQuickReply("Najdorf", "I want to learn Sicilian Najdorf").toList()
                 .addTextQuickReply("Dragon", "I want to learn Sicilian Dragon").toList()
                 .addTextQuickReply("Classical", "I want to learn Sicilian Classical").toList()
