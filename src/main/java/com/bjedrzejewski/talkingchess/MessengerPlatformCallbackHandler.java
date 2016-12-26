@@ -88,6 +88,9 @@ public class MessengerPlatformCallbackHandler {
     public ResponseEntity<String> verifyWebhook(@RequestParam(value = MODE_REQUEST_PARAM_NAME) final Optional<String> mode,
                                                 @RequestParam(value = VERIFY_TOKEN_REQUEST_PARAM_NAME) final Optional<String> verifyToken,
                                                 @RequestParam(value = CHALLENGE_REQUEST_PARAM_NAME) final Optional<String> challenge) {
+        if(!mode.isPresent() || !verifyToken.isPresent() || !challenge.isPresent()){
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
         logger.debug("Received Webhook verification request - mode: {} | verifyToken: {} | challenge: {}", mode,
                 verifyToken, challenge);
         try {
@@ -104,7 +107,9 @@ public class MessengerPlatformCallbackHandler {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Void> handleCallback(@RequestBody final Optional<String> payload,
                                                @RequestHeader(value = SIGNATURE_HEADER_NAME) final Optional<String> signature) {
-
+        if(!payload.isPresent() || !signature.isPresent()){
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
         logger.debug("Received Messenger Platform callback - payload: {} | signature: {}", payload, signature);
         try {
             this.receiveClient.processCallbackPayload(payload.get(), signature.get());
