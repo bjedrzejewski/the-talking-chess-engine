@@ -227,7 +227,6 @@ public class MessengerPlatformCallbackHandler {
 
     private void sicilianTalk(String senderId) {
         sendTextMessage(senderId, "Sicialian defense, great opening. If you play it against me as black, you may even get me to +0.3.");
-        sendTextMessage(senderId, "Which Sicilian variation would you like to learn more about?");
         final List<QuickReply> quickReplies = QuickReply.newListBuilder()
                 .addTextQuickReply("General Ideas", "I want to learn general Sicialian").toList()
                 .addTextQuickReply("Najdorf", "I want to learn Sicilian Najdorf").toList()
@@ -239,6 +238,13 @@ public class MessengerPlatformCallbackHandler {
                 .addTextQuickReply("None, thanks", "None, thanks").toList()
                 .addLocationQuickReply().toList()
                 .build();
+        try {
+            this.sendClient.sendTextMessage(senderId, "Which Sicilian variation would you like to learn more about?", quickReplies);
+        } catch (MessengerApiException e) {
+            handleSendException(e);
+        } catch (MessengerIOException e) {
+            handleSendException(e);
+        }
     }
 
     private boolean exactMessages(String recipientId, String lowerMessage) {
