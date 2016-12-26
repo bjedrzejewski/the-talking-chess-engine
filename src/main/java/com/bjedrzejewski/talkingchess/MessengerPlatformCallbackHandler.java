@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Key;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 import static com.github.messenger4j.MessengerPlatform.*;
@@ -84,13 +85,13 @@ public class MessengerPlatformCallbackHandler {
      * In case this is true, the passed challenge string must be returned by this endpoint.
      */
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<String> verifyWebhook(@RequestParam(value = MODE_REQUEST_PARAM_NAME, required = false) final String mode,
-                                                @RequestParam(value = VERIFY_TOKEN_REQUEST_PARAM_NAME, required = false) final String verifyToken,
-                                                @RequestParam(value = CHALLENGE_REQUEST_PARAM_NAME, required = false) final String challenge) {
+    public ResponseEntity<String> verifyWebhook(@RequestParam(value = MODE_REQUEST_PARAM_NAME) final Optional<String> mode,
+                                                @RequestParam(value = VERIFY_TOKEN_REQUEST_PARAM_NAME) final Optional<String> verifyToken,
+                                                @RequestParam(value = CHALLENGE_REQUEST_PARAM_NAME) final Optional<String> challenge) {
         logger.debug("Received Webhook verification request - mode: {} | verifyToken: {} | challenge: {}", mode,
                 verifyToken, challenge);
         try {
-            return ResponseEntity.ok(this.receiveClient.verifyWebhook(mode, verifyToken, challenge));
+            return ResponseEntity.ok(this.receiveClient.verifyWebhook(mode.get(), verifyToken.get(), challenge.get()));
         } catch (MessengerVerificationException e) {
             logger.warn("Webhook verification failed: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
@@ -101,12 +102,12 @@ public class MessengerPlatformCallbackHandler {
      * Callback endpoint responsible for processing the inbound messages and events.
      */
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> handleCallback(@RequestBody(required = false) final String payload,
-                                               @RequestHeader(value = SIGNATURE_HEADER_NAME, required = false) final String signature) {
+    public ResponseEntity<Void> handleCallback(@RequestBody final Optional<String> payload,
+                                               @RequestHeader(value = SIGNATURE_HEADER_NAME) final Optional<String> signature) {
 
         logger.debug("Received Messenger Platform callback - payload: {} | signature: {}", payload, signature);
         try {
-            this.receiveClient.processCallbackPayload(payload, signature);
+            this.receiveClient.processCallbackPayload(payload.get(), signature.get());
             logger.debug("Processed callback payload successfully");
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (MessengerVerificationException e) {
