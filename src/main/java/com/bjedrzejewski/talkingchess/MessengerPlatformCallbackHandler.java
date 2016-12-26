@@ -84,10 +84,9 @@ public class MessengerPlatformCallbackHandler {
      * In case this is true, the passed challenge string must be returned by this endpoint.
      */
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<String> verifyWebhook(@RequestParam(MODE_REQUEST_PARAM_NAME) final String mode,
-                                                @RequestParam(VERIFY_TOKEN_REQUEST_PARAM_NAME) final String verifyToken,
-                                                @RequestParam(CHALLENGE_REQUEST_PARAM_NAME) final String challenge) {
-
+    public ResponseEntity<String> verifyWebhook(@RequestParam(value = MODE_REQUEST_PARAM_NAME, required = false) final String mode,
+                                                @RequestParam(value = VERIFY_TOKEN_REQUEST_PARAM_NAME, required = false) final String verifyToken,
+                                                @RequestParam(value = CHALLENGE_REQUEST_PARAM_NAME, required = false) final String challenge) {
         logger.debug("Received Webhook verification request - mode: {} | verifyToken: {} | challenge: {}", mode,
                 verifyToken, challenge);
         try {
@@ -98,22 +97,12 @@ public class MessengerPlatformCallbackHandler {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<String> emptyGet() {
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
-
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<String> emptyPost() {
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
-
     /**
      * Callback endpoint responsible for processing the inbound messages and events.
      */
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> handleCallback(@RequestBody final String payload,
-                                               @RequestHeader(SIGNATURE_HEADER_NAME) final String signature) {
+    public ResponseEntity<Void> handleCallback(@RequestBody(required = false) final String payload,
+                                               @RequestHeader(value = SIGNATURE_HEADER_NAME, required = false) final String signature) {
 
         logger.debug("Received Messenger Platform callback - payload: {} | signature: {}", payload, signature);
         try {
