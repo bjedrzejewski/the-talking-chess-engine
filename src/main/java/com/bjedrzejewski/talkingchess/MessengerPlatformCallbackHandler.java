@@ -98,6 +98,16 @@ public class MessengerPlatformCallbackHandler {
         }
     }
 
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<String> emptyGet() {
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<String> emptyPost() {
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
     /**
      * Callback endpoint responsible for processing the inbound messages and events.
      */
