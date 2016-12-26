@@ -130,6 +130,10 @@ public class MessengerPlatformCallbackHandler {
 
             String lowerMessage = messageText.toLowerCase();
 
+
+            if(exactMessages(senderId, lowerMessage)){
+                return;
+            }
             if(lowerMessage.contains("hello") || lowerMessage.contains("hey") || lowerMessage.equals("hi") || lowerMessage.contains("how are you")){
                 sendTextMessage(senderId, "Hello I am The Talking Chess Engine. Talk to me about some chess openings or players.");
             }
@@ -141,6 +145,8 @@ public class MessengerPlatformCallbackHandler {
                 sendTextMessage(senderId, "I love playing against gambits. They lose by force. All of them. I mean it. I checked.");
             } else if(lowerMessage.contains("italian")) {
                 sendTextMessage(senderId, "Italian game is interesting, but above 3000 elo not the best choice.");
+            } else if(lowerMessage.contains("kann")) {
+                sendTextMessage(senderId, "Caro Kann is a very defensive opening. As a chess engine I will just win slower than usually.");
             } else if(lowerMessage.contains("kings") && lowerMessage.contains("indian")) {
                 sendTextMessage(senderId, "Kings Indian is great if you enjoy playing against +1.0 advantage. I heard that you can beat sub 2900 elo with it though.");
             } else if(lowerMessage.contains("nimzo")){
@@ -201,12 +207,50 @@ public class MessengerPlatformCallbackHandler {
                 sendTextMessage(senderId, "We engines are not great at endgames... Usually we just look it up from the tablebase.");
             }
 
+            //play game
+            else if(lowerMessage.contains("play") && (lowerMessage.contains("chess") || lowerMessage.contains("game"))) {
+                doYouWantToPlayGame(senderId);
+            }
+
 
             else {
                 messageNotUnderstood(senderId);
             }
 
         };
+    }
+
+    private boolean exactMessages(String recipientId, String lowerMessage) {
+        if(lowerMessage.equals("yes, i want to play a game")) {
+            sendTextMessage(recipientId, "You can play against an engine without registering on lichess, have fun: https://en.lichess.org/setup/ai");
+            return true;
+        } else if(lowerMessage.equals("no, thank you, I don't want to play")) {
+            sendTextMessage(recipientId, "No problem! Talk to me abou something else.");
+            return true;
+        } else if(lowerMessage.equals("i want to learn how to play")) {
+            sendTextMessage(recipientId, "This is great! I think you should check out: https://www.chess.com/learn-how-to-play-chess they have a great tutorial!");
+            return true;
+        }
+
+        //exact message not matched
+        return false;
+    }
+
+    private void doYouWantToPlayGame(String recipientId) {
+        final List<QuickReply> quickReplies = QuickReply.newListBuilder()
+                .addTextQuickReply("Yes", "Yes, I want to play a game").toList()
+                .addTextQuickReply("No", "No, thank you, I don't want to play").toList()
+                .addTextQuickReply("I want to learn how to play", "I want to learn how to play").toList()
+                .addLocationQuickReply().toList()
+                .build();
+
+        try {
+            this.sendClient.sendTextMessage(recipientId, "Would you like to play a game?", quickReplies);
+        } catch (MessengerApiException e) {
+            handleSendException(e);
+        } catch (MessengerIOException e) {
+            handleSendException(e);
+        }
     }
 
     private void messageNotUnderstood(String senderId) {
