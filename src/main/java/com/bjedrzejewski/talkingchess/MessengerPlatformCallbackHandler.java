@@ -326,7 +326,8 @@ public class MessengerPlatformCallbackHandler {
 
             logger.info("Received quick reply for message '{}' with payload '{}'", messageId, quickReplyPayload);
 
-            sendTextMessage(senderId, "Quick reply tapped");
+            //Quick messages are always scripted
+            exactMessages(senderId, quickReplyPayload);
         };
     }
 
