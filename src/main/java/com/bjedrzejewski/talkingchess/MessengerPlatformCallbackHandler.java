@@ -163,9 +163,11 @@ public class MessengerPlatformCallbackHandler {
             } else if(lowerMessage.contains("berlin")) {
                 sendTextMessage(senderId, "Berlin is the opening of choice when I want to force a draw... It usually does not work- I win anyway.");
             } else if(lowerMessage.contains("e4")) {
-                sendTextMessage(senderId, "e4 - the best by test. I am not in a mood to play, but if I was it could go like that: 1. e4 d5 2. ed5 Qd5 3. Ke2 Qe4#");
+                sendTextMessage(senderId, "e4 - the best by test. If we play it will probably go like that: 1. e4 d5 2. ed5 Qd5 3. Ke2 Qe4#");
+                doYouWantToPlayGame(senderId);
             } else if(lowerMessage.contains("d4")) {
-                sendTextMessage(senderId, "d4 is another solid choice. I won't play you, since I can't speak chess moves in human language yet.");
+                sendTextMessage(senderId, "d4 is another solid choice. You willl probably last a bit longer against me than with e4.");
+                doYouWantToPlayGame(senderId);
             }
 
             //Players
@@ -267,7 +269,16 @@ public class MessengerPlatformCallbackHandler {
         }
 
         //Sicilian
-        else if(lowerMessage.equals("i want to learn general sicilian")) {
+        else if(sicilianReplies(lowerMessage, recipientId)){
+            return true;
+        }
+
+        //exact message not matched
+        return false;
+    }
+
+    private boolean sicilianReplies(String lowerMessage, String recipientId) {
+        if(lowerMessage.equals("i want to learn general sicilian")) {
             sendTextMessage(recipientId, "The Sicilian is the most popular and best-scoring response to White's first " +
                     "move 1.e4. 1.d4 is a statistically more successful opening for white due to the high success rate " +
                     "of the Sicilian defence against 1.e4.");
