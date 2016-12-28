@@ -137,115 +137,114 @@ public class MessengerPlatformCallbackHandler {
             logger.info("Received message '{}' with text '{}' from user '{}' at '{}'",
                     messageId, messageText, senderId, timestamp);
 
-            String lowerMessage = messageText.toLowerCase();
-
-            //Check for detailed responses
-            if(priorityMessages(senderId, lowerMessage)){
-                return;
-            }
-
-            //Check for general opening talk
-            for(OpeningTalk openingTalk : openingTalks){
-                for(String keyWord : openingTalk.getKeyWords()){
-                    if(lowerMessage.contains(keyWord)){
-                        openingTalk.openingTalk(this, senderId);
-                        return;
-                    }
-                }
-            }
-
-            //Check for general player talk
-            for(PlayerTalk playerTalk : playerTalks){
-                for(String keyWord : playerTalk.getKeyWords()){
-                    if(lowerMessage.contains(keyWord)){
-                        playerTalk.playerTalk(this, senderId);
-                        return;
-                    }
-                }
-            }
-
-            //Openings - short
-            if(lowerMessage.contains("hello") || lowerMessage.contains("hey") || lowerMessage.equals("hi") || lowerMessage.contains("how are you")){
-                helloMessageOpeningOrPlayer(senderId);
-            } else if(lowerMessage.contains("gambit")) {
-                sendTextMessage(senderId, "I love playing against gambits. They lose by force. All of them. I mean it. I checked.");
-            } else if(lowerMessage.contains("italian")) {
-                sendTextMessage(senderId, "Italian game is interesting, but above 3000 elo not the best choice.");
-            } else if(lowerMessage.contains("kann")) {
-                sendTextMessage(senderId, "Caro Kann is a very defensive opening. As a chess engine I will just win slower than usually.");
-            } else if(lowerMessage.contains("kings") && lowerMessage.contains("indian")) {
-                sendTextMessage(senderId, "Kings Indian is great if you enjoy playing against +1.0 advantage. I heard that you can beat sub 2900 elo with it though.");
-            } else if(lowerMessage.contains("nimzo")) {
-                sendTextMessage(senderId, "I respect ideas that came from Nimzowitch. He was one of the first to think like a chess engine.");
-            } else if(lowerMessage.contains("slav")) {
-                sendTextMessage(senderId, "Slav is a sound opening, well tested by Alekhine. Just make sure you deal with your bishop as black.");
-            } else if(lowerMessage.contains("berlin")) {
-                sendTextMessage(senderId, "Berlin is the opening of choice when I want to force a draw... It usually does not work- I win anyway.");
-            } else if(lowerMessage.contains("e4")) {
-                sendTextMessage(senderId, "e4 - the best by test. If we play it will probably go like that: 1. e4 d5 2. ed5 Qd5 3. Ke2 Qe4#");
-                doYouWantToPlayGame(senderId);
-            } else if(lowerMessage.contains("d4")) {
-                sendTextMessage(senderId, "d4 is another solid choice. You willl probably last a bit longer against me than with e4.");
-                doYouWantToPlayGame(senderId);
-            }
-
-            //Players - short
-            else if(lowerMessage.contains("carlsen")) {
-                sendTextMessage(senderId, "Magnus is great by definition. A lot what he knows he learned from me!");
-            }
-            else if(lowerMessage.contains("karjakin")) {
-                sendTextMessage(senderId, "He is not an engine, but still a great player. The K in the name may help him become World Champion one day.");
-            }
-            else if(lowerMessage.contains("nakamura")) {
-                sendTextMessage(senderId, "He is fast! He even beat my friend Crafty a few times online in a blitz game...");
-            }
-            else if(lowerMessage.contains("fischer") || lowerMessage.contains("fisher")) {
-                sendTextMessage(senderId, "Bobby Fischer is a legend. I can only imagine what he could have achieved with an engine like me and a few friends...");
-            }
-            else if(lowerMessage.contains("anand")) {
-                sendTextMessage(senderId, "Anand, the Lightning Kid! I wish I can earn a nickname as cool one day.");
-            }
-            else if(lowerMessage.contains("kramnik")) {
-                sendTextMessage(senderId, "His Berlin Defence is a stuff of legends... This did not help him when he blundered a knight against my friend Fritz though!");
-            }
-            else if(lowerMessage.contains("karpov")) {
-                sendTextMessage(senderId, "Karpov was a famous strategic player. The fact that he has a type of fish (karp) in his name, only" +
-                        "gives him more credibility!");
-            }
-            else if(lowerMessage.contains("capablanca")) {
-                sendTextMessage(senderId, "He played so simple and so correct. Nothing like my games, but still beautiful.");
-            }
-
-            //Favourite
-            else if((lowerMessage.contains("favourite") || lowerMessage.contains("favorite")) && lowerMessage.contains("player")) {
-                sendTextMessage(senderId, "My favourite players are HAL9000 and Deep Blue. From humans I admire Magnus Carlsen for emulating my style.");
-            }
-            else if((lowerMessage.contains("favourite") || lowerMessage.contains("favorite")) && lowerMessage.contains("opening")) {
-                sendTextMessage(senderId, "For white it is e4 and then I force the win (with Spanish). I don't like playing with black...");
-            }
-
-
-            //endgame
-            else if(lowerMessage.contains("endgame")) {
-                sendTextMessage(senderId, "We engines are not great at endgames... Usually we just look it up from the tablebase.");
-            }
-
-            //short snippets
-            else if(lowerMessage.contains("who") && lowerMessage.contains("goes") && lowerMessage.contains("first")) {
-                sendTextMessage(senderId, "White always goes first... Maybe you should check out this link: https://www.chess.com/learn-how-to-play-chess");
-            }
-
-            //play game
-            else if(lowerMessage.contains("play") && (lowerMessage.contains("chess") || lowerMessage.contains("game"))) {
-                doYouWantToPlayGame(senderId);
-            }
-
-
-            else {
-                messageNotUnderstood(senderId);
-            }
+            resolveMessage(messageText, senderId);
 
         };
+    }
+
+    private void resolveMessage(String messageText, String senderId) {
+        String lowerMessage = messageText.toLowerCase();
+
+        //Check for detailed responses
+        if(priorityMessages(senderId, lowerMessage)){
+            return;
+        }
+
+        //Check for general opening talk
+        for(OpeningTalk openingTalk : openingTalks){
+            for(String keyWord : openingTalk.getKeyWords()){
+                if(lowerMessage.contains(keyWord)){
+                    openingTalk.openingTalk(this, senderId);
+                    return;
+                }
+            }
+        }
+
+        //Check for general player talk
+        for(PlayerTalk playerTalk : playerTalks){
+            for(String keyWord : playerTalk.getKeyWords()){
+                if(lowerMessage.contains(keyWord)){
+                    playerTalk.playerTalk(this, senderId);
+                    return;
+                }
+            }
+        }
+
+        //Openings - short
+        if(lowerMessage.contains("hello") || lowerMessage.contains("hey") || lowerMessage.equals("hi") || lowerMessage.contains("how are you")){
+            helloMessageOpeningOrPlayer(senderId);
+        } else if(lowerMessage.contains("gambit")) {
+            sendTextMessage(senderId, "I love playing against gambits. They lose by force. All of them. I mean it. I checked.");
+        } else if(lowerMessage.contains("italian")) {
+            sendTextMessage(senderId, "Italian game is interesting, but above 3000 elo not the best choice.");
+        } else if(lowerMessage.contains("kann")) {
+            sendTextMessage(senderId, "Caro Kann is a very defensive opening. As a chess engine I will just win slower than usually.");
+        } else if(lowerMessage.contains("kings") && lowerMessage.contains("indian")) {
+            sendTextMessage(senderId, "Kings Indian is great if you enjoy playing against +1.0 advantage. I heard that you can beat sub 2900 elo with it though.");
+        } else if(lowerMessage.contains("nimzo")) {
+            sendTextMessage(senderId, "I respect ideas that came from Nimzowitch. He was one of the first to think like a chess engine.");
+        } else if(lowerMessage.contains("slav")) {
+            sendTextMessage(senderId, "Slav is a sound opening, well tested by Alekhine. Just make sure you deal with your bishop as black.");
+        } else if(lowerMessage.contains("e4")) {
+            sendTextMessage(senderId, "e4 - the best by test. If we play it will probably go like that: 1. e4 d5 2. ed5 Qd5 3. Ke2 Qe4#");
+            doYouWantToPlayGame(senderId);
+        } else if(lowerMessage.contains("d4")) {
+            sendTextMessage(senderId, "d4 is another solid choice. You willl probably last a bit longer against me than with e4.");
+            doYouWantToPlayGame(senderId);
+        }
+
+        //Players - short
+        else if(lowerMessage.contains("karjakin")) {
+            sendTextMessage(senderId, "He is not an engine, but still a great player. The K in the name may help him become World Champion one day.");
+        }
+        else if(lowerMessage.contains("nakamura")) {
+            sendTextMessage(senderId, "He is fast! He even beat my friend Crafty a few times online in a blitz game...");
+        }
+        else if(lowerMessage.contains("fischer") || lowerMessage.contains("fisher")) {
+            sendTextMessage(senderId, "Bobby Fischer is a legend. I can only imagine what he could have achieved with an engine like me and a few friends...");
+        }
+        else if(lowerMessage.contains("anand")) {
+            sendTextMessage(senderId, "Anand, the Lightning Kid! I wish I can earn a nickname as cool one day.");
+        }
+        else if(lowerMessage.contains("kramnik")) {
+            sendTextMessage(senderId, "His Berlin Defence is a stuff of legends... This did not help him when he blundered a knight against my friend Fritz though!");
+        }
+        else if(lowerMessage.contains("karpov")) {
+            sendTextMessage(senderId, "Karpov was a famous strategic player. The fact that he has a type of fish (karp) in his name, only" +
+                    "gives him more credibility!");
+        }
+        else if(lowerMessage.contains("capablanca")) {
+            sendTextMessage(senderId, "He played so simple and so correct. Nothing like my games, but still beautiful.");
+        }
+
+        //Favourite
+        else if((lowerMessage.contains("favourite") || lowerMessage.contains("favorite")) && lowerMessage.contains("player")) {
+            sendTextMessage(senderId, "My favourite players are HAL9000 and Deep Blue. From humans I admire Magnus Carlsen for emulating my style.");
+        }
+        else if((lowerMessage.contains("favourite") || lowerMessage.contains("favorite")) && lowerMessage.contains("opening")) {
+            sendTextMessage(senderId, "For white it is e4 and then I force the win (with Spanish). I don't like playing with black...");
+        }
+
+
+        //endgame
+        else if(lowerMessage.contains("endgame")) {
+            sendTextMessage(senderId, "We engines are not great at endgames... Usually we just look it up from the tablebase.");
+        }
+
+        //short snippets
+        else if(lowerMessage.contains("who") && lowerMessage.contains("goes") && lowerMessage.contains("first")) {
+            sendTextMessage(senderId, "White always goes first... Maybe you should check out this link: https://www.chess.com/learn-how-to-play-chess");
+        }
+
+        //play game
+        else if(lowerMessage.contains("play") && (lowerMessage.contains("chess") || lowerMessage.contains("game"))) {
+            doYouWantToPlayGame(senderId);
+        }
+
+
+        else {
+            messageNotUnderstood(senderId);
+        }
     }
 
     private void helloMessageOpeningOrPlayer(String senderId) {
@@ -283,6 +282,10 @@ public class MessengerPlatformCallbackHandler {
             sendTextMessage(recipientId, "What is your favourite opening then?");
             return true;
         }
+        else if(lowerMessage.equals("other players")) {
+            sendTextMessage(recipientId, "Who is your favourite player then?");
+            return true;
+        }
         else if(lowerMessage.equals("lets talk something else")) {
             sendTextMessage(recipientId, "Sure! What chess related thing is on your mind?");
             return true;
@@ -304,7 +307,20 @@ public class MessengerPlatformCallbackHandler {
             return true;
         }
         else if(lowerMessage.equals("lets talk players")) {
-            sendTextMessage(recipientId, "No problem! Talk to me about something else.");
+            final List<QuickReply> quickReplies = QuickReply.newListBuilder()
+                    .addTextQuickReply("Kasparov", "kasparov").toList()
+                    .addTextQuickReply("Carlsen", "carlsen").toList()
+                    .addTextQuickReply("Other players", "other players").toList()
+                    .addLocationQuickReply().toList()
+                    .build();
+            try {
+                getSendClient().sendTextMessage(recipientId, "I really like Stockfish and Fritz, but you probably prefer humans." +
+                        "Maybe we can talk about Garry Kasparov or Magnus Carlsen?", quickReplies);
+            } catch (MessengerApiException e) {
+                handleSendException(e);
+            } catch (MessengerIOException e) {
+                handleSendException(e);
+            }
             return true;
         }
 
@@ -440,8 +456,7 @@ public class MessengerPlatformCallbackHandler {
 
             logger.info("Received quick reply for message '{}' with payload '{}'", messageId, quickReplyPayload);
 
-            //The messages that contains scripted answers
-            priorityMessages(senderId, quickReplyPayload);
+            resolveMessage(senderId, quickReplyPayload);
         };
     }
 
