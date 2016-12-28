@@ -2,6 +2,7 @@ package com.bjedrzejewski.talkingchess;
 
 import com.bjedrzejewski.talkingchess.openings.OpeningTalk;
 import com.bjedrzejewski.talkingchess.openings.SicilianTalk;
+import com.bjedrzejewski.talkingchess.openings.SpanishTalk;
 import com.github.messenger4j.MessengerPlatform;
 import com.github.messenger4j.exceptions.MessengerApiException;
 import com.github.messenger4j.exceptions.MessengerIOException;
@@ -58,6 +59,7 @@ public class MessengerPlatformCallbackHandler {
                                             @Value("${messenger4j.verifyToken}") final String verifyToken,
                                             final MessengerSendClient sendClient) {
         openingTalks.add(new SicilianTalk());
+        openingTalks.add(new SpanishTalk());
 
         logger.debug("Initializing MessengerReceiveClient - appSecret: {} | verifyToken: {}", appSecret, verifyToken);
         this.receiveClient = MessengerPlatform.newReceiveClientBuilder(appSecret, verifyToken)
