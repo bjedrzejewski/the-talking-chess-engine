@@ -250,7 +250,7 @@ public class MessengerPlatformCallbackHandler {
     private void helloMessageOpeningOrPlayer(String senderId) {
         final List<QuickReply> quickReplies = QuickReply.newListBuilder()
                 .addTextQuickReply("Openings", "lets talk openings").toList()
-                .addTextQuickReply("Player", "lets talk players").toList()
+                .addTextQuickReply("Players", "lets talk players").toList()
                 .addTextQuickReply("Something else", "lets talk something else").toList()
                 .addLocationQuickReply().toList()
                 .build();
@@ -456,7 +456,7 @@ public class MessengerPlatformCallbackHandler {
 
             logger.info("Received quick reply for message '{}' with payload '{}'", messageId, quickReplyPayload);
 
-            resolveMessage(senderId, quickReplyPayload);
+            resolveMessage(quickReplyPayload, senderId);
         };
     }
 
