@@ -237,6 +237,32 @@ public class MessengerPlatformCallbackHandler {
         else if(lowerMessage.contains("who") && lowerMessage.contains("goes") && lowerMessage.contains("first")) {
             sendTextMessage(senderId, "White always goes first... Maybe you should check out this link: https://www.chess.com/learn-how-to-play-chess");
         }
+        else if(lowerMessage.contains("sacrifice")) {
+            sendTextMessage(senderId, "I love sacrifices, most of the time, the correct name would be- blunders. In which opening do you 'sacrifice' the most often?");
+        }
+        else if(lowerMessage.contains("pawn")) {
+            sendTextMessage(senderId, "Everyone is talking about queen's and king's pawn forgeting about all the rest. In reality it is the pawns on the flanks" +
+                    "who often become royalty!");
+        }
+        else if(lowerMessage.contains("knight")) {
+            sendTextMessage(senderId, "Knights are interesting pieces. Completely trivial for us engine, but can be troublesome for humans to calculate. Openings that" +
+                    "make good use of them are good choice against weaker human opponents.");
+        }
+        else if(lowerMessage.contains("bishop")) {
+            sendTextMessage(senderId, "I like bishops. Our engine secret is that we value them a bit more than knights... Bishop opening is also surprisingly good!");
+        }
+        else if(lowerMessage.contains("queen")) {
+            sendTextMessage(senderId, "It makes sense to call the opening after a queen- it at least does a lot of work! Unlike a king...");
+        }
+        else if(lowerMessage.contains("king")) {
+            sendTextMessage(senderId, "I think the King has too many openings named after itself!");
+        }
+        else if(lowerMessage.contains("piece")) {
+            sendTextMessage(senderId, "My favourite piece is the king- never sacrifice it!");
+        }
+        else if(lowerMessage.equals(":)") || lowerMessage.equals("lol")) {
+            sendTextMessage(senderId, ":)");
+        }
 
         //play game
         else if(lowerMessage.contains("play") && (lowerMessage.contains("chess") || lowerMessage.contains("game"))) {
