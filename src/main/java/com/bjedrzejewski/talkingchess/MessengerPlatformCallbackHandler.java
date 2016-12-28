@@ -3,6 +3,7 @@ package com.bjedrzejewski.talkingchess;
 import com.bjedrzejewski.talkingchess.openings.OpeningTalk;
 import com.bjedrzejewski.talkingchess.openings.SicilianTalk;
 import com.bjedrzejewski.talkingchess.openings.SpanishTalk;
+import com.bjedrzejewski.talkingchess.players.CarlsenTalk;
 import com.bjedrzejewski.talkingchess.players.KasparovTalk;
 import com.bjedrzejewski.talkingchess.players.PlayerTalk;
 import com.github.messenger4j.MessengerPlatform;
@@ -65,6 +66,7 @@ public class MessengerPlatformCallbackHandler {
         openingTalks.add(new SpanishTalk());
 
         playerTalks.add(new KasparovTalk());
+        playerTalks.add(new CarlsenTalk());
 
         logger.debug("Initializing MessengerReceiveClient - appSecret: {} | verifyToken: {}", appSecret, verifyToken);
         this.receiveClient = MessengerPlatform.newReceiveClientBuilder(appSecret, verifyToken)
