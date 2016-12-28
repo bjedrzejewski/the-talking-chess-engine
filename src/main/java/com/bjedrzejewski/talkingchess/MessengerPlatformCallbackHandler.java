@@ -298,14 +298,22 @@ public class MessengerPlatformCallbackHandler {
     }
 
     public void sendTextMessage(String recipientId, String text) {
-        try {
-            final Recipient recipient = Recipient.newBuilder().recipientId(recipientId).build();
-            final NotificationType notificationType = NotificationType.REGULAR;
-            final String metadata = "DEVELOPER_DEFINED_METADATA";
+        if(text.length() > 298){
+            String[] split = text.split(". ");
+            for(String s : split){
+                sendTextMessage(recipientId, s+".");
+            }
 
-            this.sendClient.sendTextMessage(recipient, notificationType, text, metadata);
-        } catch (MessengerApiException | MessengerIOException e) {
-            handleSendException(e);
+        } else {
+            try {
+                final Recipient recipient = Recipient.newBuilder().recipientId(recipientId).build();
+                final NotificationType notificationType = NotificationType.REGULAR;
+                final String metadata = "DEVELOPER_DEFINED_METADATA";
+
+                this.sendClient.sendTextMessage(recipient, notificationType, text, metadata);
+            } catch (MessengerApiException | MessengerIOException e) {
+                handleSendException(e);
+            }
         }
     }
 
