@@ -3,6 +3,8 @@ package com.bjedrzejewski.talkingchess;
 import com.bjedrzejewski.talkingchess.openings.OpeningTalk;
 import com.bjedrzejewski.talkingchess.openings.SicilianTalk;
 import com.bjedrzejewski.talkingchess.openings.SpanishTalk;
+import com.bjedrzejewski.talkingchess.players.KasparovTalk;
+import com.bjedrzejewski.talkingchess.players.PlayerTalk;
 import com.github.messenger4j.MessengerPlatform;
 import com.github.messenger4j.exceptions.MessengerApiException;
 import com.github.messenger4j.exceptions.MessengerIOException;
@@ -45,6 +47,7 @@ public class MessengerPlatformCallbackHandler {
     private final MessengerReceiveClient receiveClient;
     private final MessengerSendClient sendClient;
     private final List<OpeningTalk> openingTalks = new ArrayList<>();
+    private final List<PlayerTalk> playerTalks = new ArrayList<>();
 
     /**
      * Constructs the {@code MessengerPlatformCallbackHandler} and initializes the {@code MessengerReceiveClient}.
@@ -60,6 +63,8 @@ public class MessengerPlatformCallbackHandler {
                                             final MessengerSendClient sendClient) {
         openingTalks.add(new SicilianTalk());
         openingTalks.add(new SpanishTalk());
+
+        playerTalks.add(new KasparovTalk());
 
         logger.debug("Initializing MessengerReceiveClient - appSecret: {} | verifyToken: {}", appSecret, verifyToken);
         this.receiveClient = MessengerPlatform.newReceiveClientBuilder(appSecret, verifyToken)
@@ -149,9 +154,19 @@ public class MessengerPlatformCallbackHandler {
                 }
             }
 
+            //Check for general player talk
+            for(PlayerTalk playerTalk : playerTalks){
+                for(String keyWord : playerTalk.getKeyWords()){
+                    if(lowerMessage.contains(keyWord)){
+                        playerTalk.playerTalk(this, senderId);
+                        return;
+                    }
+                }
+            }
 
+            //Openings - short
             if(lowerMessage.contains("hello") || lowerMessage.contains("hey") || lowerMessage.equals("hi") || lowerMessage.contains("how are you")){
-                    sendTextMessage(senderId, "Hello I am The Talking Chess Engine. Talk to me about some chess openings or players.");
+                helloMessageOpeningOrPlayer(senderId);
             } else if(lowerMessage.contains("gambit")) {
                 sendTextMessage(senderId, "I love playing against gambits. They lose by force. All of them. I mean it. I checked.");
             } else if(lowerMessage.contains("italian")) {
@@ -174,12 +189,9 @@ public class MessengerPlatformCallbackHandler {
                 doYouWantToPlayGame(senderId);
             }
 
-            //Players
+            //Players - short
             else if(lowerMessage.contains("carlsen")) {
                 sendTextMessage(senderId, "Magnus is great by definition. A lot what he knows he learned from me!");
-            }
-            else if(lowerMessage.contains("kasparov")) {
-                sendTextMessage(senderId, "We chess engines don't like to talk too much about Kasparov. Once he accused us of being too human!");
             }
             else if(lowerMessage.contains("karjakin")) {
                 sendTextMessage(senderId, "He is not an engine, but still a great player. The K in the name may help him become World Champion one day.");
@@ -213,9 +225,14 @@ public class MessengerPlatformCallbackHandler {
             }
 
 
-            //edngame
+            //endgame
             else if(lowerMessage.contains("endgame")) {
                 sendTextMessage(senderId, "We engines are not great at endgames... Usually we just look it up from the tablebase.");
+            }
+
+            //short snippets
+            else if(lowerMessage.contains("who") && lowerMessage.contains("goes") && lowerMessage.contains("first")) {
+                sendTextMessage(senderId, "White always goes first... Maybe you should check out this link: https://www.chess.com/learn-how-to-play-chess");
             }
 
             //play game
@@ -231,6 +248,21 @@ public class MessengerPlatformCallbackHandler {
         };
     }
 
+    private void helloMessageOpeningOrPlayer(String senderId) {
+        final List<QuickReply> quickReplies = QuickReply.newListBuilder()
+                .addTextQuickReply("Openings", "lets talk openings").toList()
+                .addTextQuickReply("Player", "lets talk players").toList()
+                .addTextQuickReply("Something else", "lets talk something else").toList()
+                .addLocationQuickReply().toList()
+                .build();
+        try {
+            getSendClient().sendTextMessage(senderId, "Hello I am The Talking Chess Engine. Talk to me about some chess openings or players.", quickReplies);
+        } catch (MessengerApiException e) {
+            handleSendException(e);
+        } catch (MessengerIOException e) {
+            handleSendException(e);
+        }
+    }
 
 
     private boolean priorityMessages(String recipientId, String lowerMessage) {
@@ -246,6 +278,36 @@ public class MessengerPlatformCallbackHandler {
             return true;
         }
 
+        //hello answers
+        else if(lowerMessage.equals("other openings")) {
+            sendTextMessage(recipientId, "What is your favourite opening then?");
+            return true;
+        }
+        else if(lowerMessage.equals("lets talk something else")) {
+            sendTextMessage(recipientId, "Sure! What chess related thing is on your mind?");
+            return true;
+        }
+        else if(lowerMessage.equals("lets talk openings")) {
+            final List<QuickReply> quickReplies = QuickReply.newListBuilder()
+                    .addTextQuickReply("Sicilian", "sicilian").toList()
+                    .addTextQuickReply("Spanish", "spanish").toList()
+                    .addTextQuickReply("Other openings", "other openings").toList()
+                    .addLocationQuickReply().toList()
+                    .build();
+            try {
+                getSendClient().sendTextMessage(recipientId, "I really like Spanish and Sicilian, maybe I can tell you more about one of them?", quickReplies);
+            } catch (MessengerApiException e) {
+                handleSendException(e);
+            } catch (MessengerIOException e) {
+                handleSendException(e);
+            }
+            return true;
+        }
+        else if(lowerMessage.equals("lets talk players")) {
+            sendTextMessage(recipientId, "No problem! Talk to me about something else.");
+            return true;
+        }
+
         //openings - general thank you
         else if(lowerMessage.equals("none, thanks")) {
             sendTextMessage(recipientId, "No problem! Talk to me about something else.");
@@ -254,6 +316,12 @@ public class MessengerPlatformCallbackHandler {
 
         for(OpeningTalk openingTalk : openingTalks){
             if(openingTalk.openingCheckDetails(this, lowerMessage, recipientId)){
+                return true;
+            }
+        }
+
+        for(PlayerTalk playerTalk : playerTalks){
+            if(playerTalk.playerCheckDetails(this, lowerMessage, recipientId)){
                 return true;
             }
         }
@@ -297,9 +365,18 @@ public class MessengerPlatformCallbackHandler {
             sendTextMessage(senderId, "I did not quite understand. How about you ask me about Sicilian? I know a lot about that!");
     }
 
+    /**
+     * Will try to make sure that messages are shorter than 300 chars.
+     * @param recipientId
+     * @param text
+     */
     public void sendTextMessage(String recipientId, String text) {
         if(text.length() > 298){
             String[] split = text.split("\\. ");
+            if(split.length == 1){
+                logger.error("Message too long to send: "+text);
+                return;
+            }
             for(String s : split){
                 sendTextMessage(recipientId, s+".");
             }
@@ -349,6 +426,10 @@ public class MessengerPlatformCallbackHandler {
         };
     }
 
+    /**
+     * Modified to go through priority messages
+     * @return
+     */
     private QuickReplyMessageEventHandler newQuickReplyMessageEventHandler() {
         return event -> {
             logger.debug("Received QuickReplyMessageEvent: {}", event);
@@ -465,8 +546,6 @@ public class MessengerPlatformCallbackHandler {
             logger.info("Received unsupported message from user '{}'", senderId);
         };
     }
-
-
 
     public void handleSendException(Exception e) {
         logger.error("Message could not be sent. An unexpected error occurred.", e);
