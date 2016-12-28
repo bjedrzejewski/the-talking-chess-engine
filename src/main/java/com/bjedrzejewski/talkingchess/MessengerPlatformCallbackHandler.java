@@ -299,7 +299,7 @@ public class MessengerPlatformCallbackHandler {
 
     public void sendTextMessage(String recipientId, String text) {
         if(text.length() > 298){
-            String[] split = text.split(". ");
+            String[] split = text.split("\\. ");
             for(String s : split){
                 sendTextMessage(recipientId, s+".");
             }
