@@ -158,10 +158,8 @@ public class MessengerPlatformCallbackHandler {
                 sendTextMessage(senderId, "Caro Kann is a very defensive opening. As a chess engine I will just win slower than usually.");
             } else if(lowerMessage.contains("kings") && lowerMessage.contains("indian")) {
                 sendTextMessage(senderId, "Kings Indian is great if you enjoy playing against +1.0 advantage. I heard that you can beat sub 2900 elo with it though.");
-            } else if(lowerMessage.contains("nimzo")){
+            } else if(lowerMessage.contains("nimzo")) {
                 sendTextMessage(senderId, "I respect ideas that came from Nimzowitch. He was one of the first to think like a chess engine.");
-            } else if(lowerMessage.contains("spanish") || lowerMessage.contains("lopez")) {
-                sendTextMessage(senderId, "Ahhhh, the Spanish. It wins by force. Don't listen to those telling you otherwise");
             } else if(lowerMessage.contains("slav")) {
                 sendTextMessage(senderId, "Slav is a sound opening, well tested by Alekhine. Just make sure you deal with your bishop as black.");
             } else if(lowerMessage.contains("berlin")) {
