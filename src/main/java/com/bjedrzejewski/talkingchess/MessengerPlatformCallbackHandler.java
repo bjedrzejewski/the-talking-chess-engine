@@ -222,11 +222,11 @@ public class MessengerPlatformCallbackHandler {
         }
 
         //Favourite
-        else if((lowerMessage.contains("favourite") || lowerMessage.contains("favorite")) && lowerMessage.contains("player")) {
+        else if((lowerMessage.contains("favourite") || lowerMessage.contains("favorite") || lowerMessage.contains("best")) && lowerMessage.contains("player")) {
             sendTextMessage(senderId, "My favourite players are HAL9000 and Deep Blue. From humans I admire Magnus Carlsen for emulating my style.");
         }
-        else if((lowerMessage.contains("favourite") || lowerMessage.contains("favorite")) && lowerMessage.contains("opening")) {
-            sendTextMessage(senderId, "For white it is e4 and then I force the win (with Spanish). I don't like playing with black...");
+        else if((lowerMessage.contains("favourite") || lowerMessage.contains("favorite") || lowerMessage.contains("best")) && lowerMessage.contains("opening")) {
+            sendTextMessage(senderId, "For white it is e4 and then I force the win (with Spanish). For black I like Sicilian defence. Ask me about it!");
         }
 
 
@@ -369,6 +369,7 @@ public class MessengerPlatformCallbackHandler {
 
         for(PlayerTalk playerTalk : playerTalks){
             if(playerTalk.playerCheckDetails(this, lowerMessage, recipientId)){
+                playerDetailsFinish(recipientId);
                 return true;
             }
         }
@@ -384,7 +385,7 @@ public class MessengerPlatformCallbackHandler {
         if(val == 0)
             sendTextMessage(senderId, "I hope that was useful, maybe you can ask me about another variation?");
         if(val == 1)
-            sendTextMessage(senderId, "Would you like to learn about some other openings??");
+            sendTextMessage(senderId, "Would you like to learn about some other openings?");
         if(val == 2)
             sendTextMessage(senderId, "What is your favourite opening?");
         if(val == 3)
@@ -393,6 +394,18 @@ public class MessengerPlatformCallbackHandler {
             sendTextMessage(senderId, "I hope you will remember all that! What else would you like to ask me?");
         if(val == 5)
             sendTextMessage(senderId, "Was that what you were looking for? Ask me about something else!");
+    }
+
+    private void playerDetailsFinish(String senderId) {
+        Random random = new Random(System.currentTimeMillis());
+        int val = Math.abs(random.nextInt());
+        val = val%3;
+        if(val == 0)
+            sendTextMessage(senderId, "I hope that was fun! Maybe you would like to ask me about some openings?");
+        if(val == 1)
+            sendTextMessage(senderId, "What else would you like to talk about?");
+        if(val == 2)
+            sendTextMessage(senderId, "Do you have a favourite opening?");
     }
 
 
