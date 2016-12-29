@@ -1,5 +1,6 @@
 package com.bjedrzejewski.talkingchess;
 
+import com.bjedrzejewski.talkingchess.openings.FrenchTalk;
 import com.bjedrzejewski.talkingchess.openings.OpeningTalk;
 import com.bjedrzejewski.talkingchess.openings.SicilianTalk;
 import com.bjedrzejewski.talkingchess.openings.SpanishTalk;
@@ -64,6 +65,7 @@ public class MessengerPlatformCallbackHandler {
                                             final MessengerSendClient sendClient) {
         openingTalks.add(new SicilianTalk());
         openingTalks.add(new SpanishTalk());
+        openingTalks.add(new FrenchTalk());
 
         playerTalks.add(new KasparovTalk());
         playerTalks.add(new CarlsenTalk());
@@ -360,6 +362,7 @@ public class MessengerPlatformCallbackHandler {
 
         for(OpeningTalk openingTalk : openingTalks){
             if(openingTalk.openingCheckDetails(this, lowerMessage, recipientId)){
+                openingDetailsFinish(recipientId);
                 return true;
             }
         }
@@ -374,6 +377,23 @@ public class MessengerPlatformCallbackHandler {
         return false;
     }
 
+    private void openingDetailsFinish(String senderId) {
+        Random random = new Random(System.currentTimeMillis());
+        int val = Math.abs(random.nextInt());
+        val = val%6;
+        if(val == 0)
+            sendTextMessage(senderId, "I hope that was useful, maybe you can ask me about another variation?");
+        if(val == 1)
+            sendTextMessage(senderId, "Would you like to learn about some other openings??");
+        if(val == 2)
+            sendTextMessage(senderId, "What is your favourite opening?");
+        if(val == 3)
+            sendTextMessage(senderId, "Openings are interesting, but who is your favourite player? Perhaps Carlsen or Kasparov?");
+        if(val == 4)
+            sendTextMessage(senderId, "I hope you will remember all that! What else would you like to ask me?");
+        if(val == 5)
+            sendTextMessage(senderId, "Was that what you were looking for? Ask me about something else!");
+    }
 
 
     private void doYouWantToPlayGame(String recipientId) {

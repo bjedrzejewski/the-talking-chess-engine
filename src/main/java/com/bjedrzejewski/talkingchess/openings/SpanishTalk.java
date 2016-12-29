@@ -56,7 +56,6 @@ public class SpanishTalk implements OpeningTalk {
             return true;
         }
 
-
         //exact message not matched
         return false;
     }

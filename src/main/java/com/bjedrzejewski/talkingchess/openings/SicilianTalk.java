@@ -73,6 +73,12 @@ public class SicilianTalk implements OpeningTalk {
             callbackHandler.sendTextMessage(recipientId, "Named after Mark Taimanov, the Taimanov Variation can be reached through 1.e4 c5 2.Nf3 e6 3.d4 cxd4 4.Nxd4 Nc6 or 1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 e6. Black develops the knight to a natural square and keeps his options open regarding the placement of his other pieces. One of the ideas of this system is to develop the king's bishop to b4 or c5. White can prevent this by 5.Nb5 d6, when 6.c4 leads to a version of the Maróczy Bind favoured by Karpov. The resulting position after 6.c4 Nf6 7.N1c3 a6 8.Na3 b6 is a type of Hedgehog.");
             callbackHandler.sendTextMessage(recipientId, "To learn more visit: https://en.wikipedia.org/wiki/Sicilian_Defence");
             return true;
+        } else if ((lowerMessage.contains("against") || lowerMessage.contains("beat")) && lowerMessage.contains("sicilian")) {
+            callbackHandler.sendTextMessage(recipientId, "To beat Sicilian I recommend trying either Yugoslav or English attack. They are very similar and very aggressive.");
+            callbackHandler.sendTextMessage(recipientId, "To learn about Yugoslav check: https://en.wikipedia.org/wiki/Sicilian_Defence,_Dragon_Variation,_Yugoslav_Attack,_9.Bc4");
+            callbackHandler.sendTextMessage(recipientId, "To learn about the English attack check: https://en.wikipedia.org/wiki/Sicilian_Defence,_Najdorf_Variation#English_Attack:_6.Be3");
+
+            return true;
         }
 
         //exact message not matched
