@@ -324,6 +324,7 @@ public class MessengerPlatformCallbackHandler {
             final List<QuickReply> quickReplies = QuickReply.newListBuilder()
                     .addTextQuickReply("Sicilian", "sicilian").toList()
                     .addTextQuickReply("Spanish", "spanish").toList()
+                    .addTextQuickReply("French", "french").toList()
                     .addTextQuickReply("Other openings", "other openings").toList()
                     .addLocationQuickReply().toList()
                     .build();

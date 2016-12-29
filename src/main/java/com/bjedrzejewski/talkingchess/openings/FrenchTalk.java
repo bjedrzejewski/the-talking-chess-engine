@@ -50,20 +50,23 @@ public class FrenchTalk implements OpeningTalk {
             callbackHandler.sendTextMessage(recipientId, "This variation, named after Szymon Winawer and pioneered by Nimzowitsch and Botvinnik, is one of the main systems in the French, due chiefly to the latter's efforts in the 1940s, becoming the most often seen rejoinder to 3.Nc3, though in the 1980s, the Classical Variation with 3...Nf6 began a revival, and has since become more popular.\n" +
                     "3... Bb4 pins the knight on c3, forcing White to resolve the central tension. White normally clarifies the central situation for the moment with 4. e5, gaining space and hoping to show that Black's b4-bishop is misplaced. The main line then is: 4... c5 5. a3 Bxc3+ 6. bxc3");
             callbackHandler.sendTextMessage(recipientId, "It is very popular and you can read more on: https://en.wikipedia.org/wiki/French_Defence#Winawer_Variation:_3...Bb4");
+            return true;
         } else if (lowerMessage.contains("french") && lowerMessage.contains("exchange")) {
             callbackHandler.sendTextMessage(recipientId, "French Exchange goes: 1.e4 e6 2.d4 d5 3.exd5 exd5");
             callbackHandler.sendTextMessage(recipientId, "Many players who begin with 1.e4 find that the French Defence is the most difficult opening for them to play against due to the closed structure and unique strategies of the system. Thus, many players choose to play the exchange so that the position becomes simple and clearcut. White makes no effort to exploit the advantage of the first move, and has often chosen this line with expectation of an early draw, and indeed draws often occur if neither side breaks the symmetry.");
+            return true;
         } else if (lowerMessage.contains("french") && lowerMessage.contains("tarrash")) {
             callbackHandler.sendTextMessage(recipientId, "French Tarrasch goes: 1.e4 e6 2.d4 d5 3.Nd2 Nf6");
             callbackHandler.sendTextMessage(recipientId, "The Tarrasch Variation is named after Siegbert Tarrasch. This move became particularly popular during the 1970s and early 1980s when Anatoly Karpov used it to great effect. Though less aggressive than the alternate 3.Nc3, it is still used by top-level players seeking a small, safe advantage.\n" +
                     "Like 3.Nc3, 3.Nd2 protects e4, but is different in several key respects: it does not block White's c-pawn from advancing, which means he can play c3 at some point to support his d4-pawn. Hence, it avoids the Winawer Variation as 3...Bb4 is now readily answered by 4.c3. On the other hand, 3.Nd2 develops the knight to an arguably less active square than 3.Nc3, and in addition, it hems in White's dark-square bishop. Hence, white will typically have to spend an extra tempo moving the knight from d2 at some point before developing said bishop.");
+            return true;
         } else if (lowerMessage.contains("french") && lowerMessage.contains("advance")) {
             callbackHandler.sendTextMessage(recipientId, "French Exchange goes: 1.e4 e6 2.d4 d5 3.e5");
             callbackHandler.sendTextMessage(recipientId, "The main line of the Advance Variation continues 3... c5 4. c3 Nc6 5. Nf3 and then we have a branching point:");
             callbackHandler.sendTextMessage(recipientId, "5...Qb6, the idea is to increase the pressure on d4 and eventually undermine the White centre. The queen also attacks the b2-square, so White's dark-square bishop cannot easily defend the d4-pawn without losing the b2-pawn. White's most common replies are 6.a3 and 6.Be2.");
             callbackHandler.sendTextMessage(recipientId, "5...Bd7 was mentioned by Greco as early as 1620, and was revived and popularised by Viktor Korchnoi in the 1970s. Now a main line, the idea behind the move is that since Black usually plays ...Bd7 sooner or later, he plays it right away and waits for White to show his hand. If White plays 6.a3 in response, modern theory says that Black equalises or is better after 6...f6!");
             callbackHandler.sendTextMessage(recipientId, "5...Nh6 has recently become a popular alternative");
-
+            return true;
         }
 
 
